@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.search_page, name='search_page'),
     path('generate/', views.generate_csv, name='generate_csv'),
+    path('download/', views.download_csv, name='download_csv')
 ]

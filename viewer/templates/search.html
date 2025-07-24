@@ -131,5 +131,10 @@
     {% elif query %}
         <div class="no-results">No results found for message_id: <strong>{{ query }}</strong></div>
     {% endif %}
+    <!-- Add below your form and above or below the table -->
+<form method="get" action="{% url 'download_csv' %}">
+    <button type="submit" class="btn btn-success">Download Full Chains CSV</button>
+</form>
+
 </body>
 </html>

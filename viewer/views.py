@@ -7,10 +7,11 @@ from django.conf import settings
 CSV_PATH = os.path.join(settings.BASE_DIR, 'smpp_full_chains.csv')
 import subprocess
 import os
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,FileResponse, Http404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+
 
 @csrf_exempt
 def generate_csv(request):
@@ -40,15 +41,14 @@ def generate_csv(request):
 def search_page(request):
     if request.method == 'POST':
         query = request.POST.get('query', '').strip()
-        id_list = [mid.strip() for mid in query.split(',') if mid.strip()]
+        id_list = [mid.strip().lower() for mid in query.split(',') if mid.strip()]
 
         results = []
         with open(CSV_PATH, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             header = reader.fieldnames
             for row in reader:
-                # Normalize both sides to avoid mismatches due to spaces/case
-                row_id = row.get('message_id', '').strip()
+                row_id = row.get('message_id', '').strip().lower()
                 if row_id in id_list:
                     results.append(SimpleNamespace(**row))
 
@@ -59,3 +59,10 @@ def search_page(request):
         })
 
     return render(request, 'search.html')
+
+def download_csv(request):
+    file_path = 'smpp_full_chains.csv'
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='smpp_full_chains.csv')
+    else:
+        raise Http404("CSV file not found.")
