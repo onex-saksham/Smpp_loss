@@ -1,2 +1,2 @@
-submit_sm,submit_sm_resp,deliver_sm,deliver_sm_resp,full_chains,partial_chains,submit_resp_matched,resp_deliver_matched,deliver_resp_matched
-2,2,2,2,1,0,0,0,0
+submit_sm,submit_sm_resp,deliver_sm,deliver_sm_resp,submit_resp_matched,resp_deliver_matched,deliver_resp_matched,full_chains
+109590,120587,137049,133150,109584,104108,100636,100636
